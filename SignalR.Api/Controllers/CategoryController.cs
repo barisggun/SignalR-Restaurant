@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.Business.Abstract;
 using SignalR.Dto.CategoryDto;
@@ -11,16 +12,18 @@ namespace SignalR.Api.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _CategoryService;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryService CategoryService)
+        public CategoryController(ICategoryService CategoryService, IMapper mapper)
         {
             _CategoryService = CategoryService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult CategoryList()
         {
-            var values = _CategoryService.TGetListAll();
+            var values = _mapper.Map<List<ResultCategoryDto>>(_CategoryService.TGetListAll());
             return Ok(values);
         }
 

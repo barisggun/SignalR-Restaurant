@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SignalR.Business.Abstract;
+using SignalR.DataAccess.Concrete;
 using SignalR.Dto.ProductDto;
 using SignalR.Entity.Entities;
 
@@ -11,17 +14,38 @@ namespace SignalR.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _ProductService;
-
-        public ProductController(IProductService ProductService)
+        private readonly IMapper _mapper;
+        public ProductController(IProductService ProductService, IMapper mapper)
         {
             _ProductService = ProductService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult ProductList()
         {
-            var values = _ProductService.TGetListAll();
+            var values = _mapper.Map<List<ResultProductDto>>(_ProductService.TGetListAll());
             return Ok(values);
+        }
+
+        [HttpGet("ProductListWithCategory")]
+        public IActionResult ProductListWithCategory()
+        {
+            //var value = _mapper.Map<List<ResultProductWithCategory>>(_ProductService.TGetProductsWithCategories());
+            //return Ok(value);
+
+            var context = new SignalRContext();
+            var values = context.Products.Include(x => x.Category).Select(y => new ResultProductWithCategory
+            {
+                ProductID = y.ProductID,
+                Description = y.Description,
+                ImageUrl = y.ImageUrl,
+                ProductName = y.ProductName,
+                Price = y.Price,
+                ProductStatus = y.ProductStatus,
+                CategoryName = y.Category.CategoryName
+            });
+            return Ok(values.ToList());
         }
 
         [HttpPost]
