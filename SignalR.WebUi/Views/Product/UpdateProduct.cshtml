@@ -1,0 +1,46 @@
+﻿@model UpdateProductDto
+
+@{
+	ViewData["Title"] = "UpdateProduct";
+	Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">update product</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">yeni product girişi</div>
+						</div>
+						<div class="card-body">
+							<input type="hidden" asp-for="ProductID" />
+							<div class="form-group">
+								<label for="productName">product name</label>
+								<input type="text" class="form-control" asp-for="ProductName" id="productName" placeholder="Enter product name">
+
+								<label for="productName">product price</label>
+								<input type="text" class="form-control" asp-for="Price" id="productName" placeholder="Enter product price">
+
+								<label for="productName">Imageurl</label>
+								<input type="text" class="form-control" asp-for="ImageUrl" id="productName" placeholder="Enter product image">
+
+
+								<label for="productName">product description</label>
+								<input type="text" class="form-control" asp-for="Description" id="productName" placeholder="Enter product description">
+
+								<label for="productName">product description</label>
+								@Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.v, new { @class = "form-control" })
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-primary">add product</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

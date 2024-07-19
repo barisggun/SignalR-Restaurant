@@ -57,13 +57,14 @@ namespace SignalR.Api.Controllers
                 ImageUrl = createProductDto.ImageUrl,
                 ProductName = createProductDto.ProductName,
                 Price = createProductDto.Price,
-                ProductStatus = createProductDto.ProductStatus
+                ProductStatus = createProductDto.ProductStatus,
+                CategoryID = createProductDto.CategoryID
             };
             _ProductService.TAdd(Product);
             return Ok("Product added");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
             var values = _ProductService.TGetByID(id);
@@ -82,12 +83,13 @@ namespace SignalR.Api.Controllers
                 ImageUrl = updateProductDto.ImageUrl,
                 ProductName = updateProductDto.ProductName,
                 Price = updateProductDto.Price,
+                CategoryID = updateProductDto.CategoryID
             };
             _ProductService.TUpdate(Product);
             return Ok("Product updated");
         }
 
-        [HttpGet("GetProduct")]
+        [HttpGet("{id}")]
         public IActionResult GetProduct(int id)
         {
             var value = _ProductService.TGetByID(id);

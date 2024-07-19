@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SignalR.Dto.ProductDto
+﻿namespace SignalR.WebUI.Dtos.ProductDtos
 {
     public class CreateProductDto
     {
@@ -14,5 +8,6 @@ namespace SignalR.Dto.ProductDto
         public string ImageUrl { get; set; }
         public bool ProductStatus { get; set; }
         public int CategoryID { get; set; }
+
     }
 }
