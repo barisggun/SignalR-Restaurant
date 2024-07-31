@@ -39,7 +39,7 @@ namespace SignalR.Api.Controllers
             return Ok("Booking added");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteBooking(int id)
         {
             var values = _BookingService.TGetByID(id);
@@ -64,7 +64,7 @@ namespace SignalR.Api.Controllers
             return Ok("Booking updated");
         }
 
-        [HttpGet("GetBooking")]
+        [HttpGet("{id}")]
         public IActionResult GetBooking(int id)
         {
             var value = _BookingService.TGetByID(id);

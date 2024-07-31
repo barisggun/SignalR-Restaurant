@@ -1,3 +1,4 @@
+using SignalR.Api.Hubs;
 using SignalR.Business.Abstract;
 using SignalR.Business.Concrete;
 using SignalR.DataAccess.Abstract;
@@ -7,6 +8,22 @@ using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+//signalr codes
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyHeader()
+        .AllowAnyMethod()
+        .SetIsOriginAllowed((host) => true)
+        .AllowCredentials();
+    });
+});
+
+builder.Services.AddSignalR();
+
+//end signalr codes
 
 builder.Services.AddDbContext<SignalRContext>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -50,6 +67,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
+app.MapHub<SignalRHub>("/signalrhub");
 
 app.UseHttpsRedirection();
 
