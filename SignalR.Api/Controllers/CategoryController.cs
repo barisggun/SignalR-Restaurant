@@ -20,6 +20,13 @@ namespace SignalR.Api.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("CategoryCount")]
+        public IActionResult CategoryCount()
+        {
+
+            return Ok(_CategoryService.TCategoryCount());
+        }
+
         [HttpGet]
         public IActionResult CategoryList()
         {
