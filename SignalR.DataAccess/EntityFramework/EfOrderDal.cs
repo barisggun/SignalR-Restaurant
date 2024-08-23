@@ -22,6 +22,12 @@ namespace SignalR.DataAccess.EntityFramework
             return context.Orders.Where(x => x.Description == "Müşteri Masada").Count(); ;
         }
 
+        public decimal TodayTotalPrice()
+        {
+            using var context = new SignalRContext();
+            return context.Orders.Count();
+        }
+
         public int TotalOrderCount()
         {
             using var context = new SignalRContext();

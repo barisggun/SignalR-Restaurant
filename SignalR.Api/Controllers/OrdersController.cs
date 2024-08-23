@@ -26,5 +26,12 @@ namespace SignalR.Api.Controllers
         {
             return Ok(_orderService.TActiveOrderCount());
         }
+
+        [HttpGet("TodayTotalPrice")]
+        public IActionResult TodayTotalPrice()
+        {
+            return Ok(_orderService.TTodayTotalPrice());
+        }
+
     }
 }
