@@ -17,13 +17,20 @@
             <div class="col-md-12">
                 <div class="card">
                     <script type="text/javascript">
+
                         $(document).ready(() => {
+
                             var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7224/SignalRHub").build();
                             $("#connstatus").text(connection.state);
 
                             connection.start().then(() => {
                                 $("#connstatus").text(connection.state);
-                                connection.invoke("SendCategoryCount");
+
+                                setInterval(() => {
+                                    connection.invoke("SendCategoryCount");
+                                }, 1000);
+
+
                             }).catch((err) => { console.log(err) });
 
 
