@@ -11,6 +11,7 @@ namespace SignalR.Api.Hubs
         private readonly IMoneyCaseService _moneyCaseService;
         private readonly IOrderService _orderService;
         private readonly IMenuTableService _menuTableService;
+        private readonly IBookingService _bookingService;
 
         public SignalRHub(ICategoryService categoryService, IProductService productService, IMoneyCaseService moneyCaseService, IOrderService orderService, IMenuTableService menuTableService)
         {
@@ -58,6 +59,12 @@ namespace SignalR.Api.Hubs
 
             var value3 = _menuTableService.TMenuTableCount();
             await Clients.All.SendAsync("RecieveMenuTableCount", value3);
+        }
+
+        public async Task GetBookingList()
+        {
+            var values = _bookingService.TGetListAll();
+            await Clients.All.SendAsync("ReceiveBookingList", values);
         }
 	}
 }
