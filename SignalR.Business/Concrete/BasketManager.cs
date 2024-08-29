@@ -35,7 +35,7 @@ namespace SignalR.Business.Concrete
 
         public Basket TGetByID(int id)
         {
-            throw new NotImplementedException();
+            return _basketDal.GetByID(id);
         }
 
         public List<Basket> TGetListAll()
