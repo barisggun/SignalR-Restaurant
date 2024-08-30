@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SignalR.Entity.Entities
+namespace SignalR.Dto.NotificationDto
 {
-    public class Notification
+    public class UpdateNotificationDto
     {
         public int NotificationID { get; set; }
         public string Type { get; set; }

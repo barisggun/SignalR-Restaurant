@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.Business.Abstract;
+using SignalR.Dto.NotificationDto;
+using SignalR.Entity.Entities;
 
 namespace SignalR.Api.Controllers
 {
@@ -25,6 +27,58 @@ namespace SignalR.Api.Controllers
         public IActionResult NotificationCountByStatusFalse()
         {
             return Ok(_notificationService.TNotificationCountByStatusFalse());
+        }
+
+        [HttpGet("GetAllNotificationByFalse")]
+        public IActionResult TGetAllNotificationByFalse()
+        {
+            return Ok(_notificationService.TGetAllNotificationByFalse());
+        }
+
+        [HttpPost]
+        public IActionResult CreateNotification(CreateNotificationDto createNotificationDto)
+        {
+            Notification notification = new Notification()
+            {
+                Description = createNotificationDto.Description,
+                Icon = createNotificationDto.Icon,
+                Status = false,
+                Type = createNotificationDto.Type,
+                Date = Convert.ToDateTime(DateTime.Now.ToShortDateString())
+            };
+            _notificationService.TAdd(notification);
+            return Ok("Eklendi");
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteNotification(int id)
+        {
+            var value = _notificationService.TGetByID(id);
+            _notificationService.TDelete(value);
+            return Ok("Silindi");
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetNotification(int id)
+        {
+            var value = _notificationService.TGetByID(id);
+            return Ok(value);
+        }
+
+        [HttpPut]
+        public IActionResult UpdateNotification(UpdateNotificationDto updateNotificationDto)
+        {
+            Notification notification = new Notification()
+            {
+                NotificationID = updateNotificationDto.NotificationID,
+                Description = updateNotificationDto.Description,
+                Icon = updateNotificationDto.Icon,
+                Status = updateNotificationDto.Status,
+                Type = updateNotificationDto.Type,
+                Date = updateNotificationDto.Date
+            };
+            _notificationService.TUpdate(notification);
+            return Ok("Güncellendi.");
         }
     }
 }
