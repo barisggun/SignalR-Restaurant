@@ -78,5 +78,10 @@ namespace SignalR.Api.Hubs
             var notificationListByFalse = _notificationService.TGetAllNotificationByFalse();
             await Clients.All.SendAsync("ReceiveNotificationListByFalse", notificationListByFalse);
         }
+
+        public async Task SendMessage(string user, string message)
+        {
+            await Clients.All.SendAsync("ReceiveMessage",user,message);
+        }
 	}
 }
