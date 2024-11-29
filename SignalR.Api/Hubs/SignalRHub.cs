@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using SignalR.Business.Abstract;
 using SignalR.DataAccess.Concrete;
+using System.Runtime.CompilerServices;
 
 namespace SignalR.Api.Hubs
 {
@@ -14,6 +15,7 @@ namespace SignalR.Api.Hubs
         private readonly IBookingService _bookingService;
         private readonly INotificationService _notificationService;
 
+
         public SignalRHub(ICategoryService categoryService, IProductService productService, IMoneyCaseService moneyCaseService, IOrderService orderService, IMenuTableService menuTableService, IBookingService bookingService, INotificationService notificationService)
         {
             _categoryService = categoryService;
@@ -24,6 +26,8 @@ namespace SignalR.Api.Hubs
             _bookingService = bookingService;
             _notificationService = notificationService;
         }
+
+        int clientCount = 0;
 
         public async Task SendStatistic()
 		{
@@ -83,5 +87,19 @@ namespace SignalR.Api.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage",user,message);
         }
-	}
+
+        public override async Task OnConnectedAsync()
+        {
+            clientCount++;
+            await Clients.All.SendAsync("ReceiveClientCount", clientCount);
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            clientCount--;
+            await Clients.All.SendAsync("ReceiveClientCount",clientCount);
+            await base.OnDisconnectedAsync(exception);
+        }
+    }
 }
